@@ -1,0 +1,22 @@
+{
+  "name": "pooltech-crm",
+  "version": "1.0.0",
+  "description": "CRM system for pool maintenance services with integrated pricing calculator",
+  "main": "index.html",
+  "scripts": {
+    "start": "open index.html"
+  },
+  "keywords": [
+    "pool",
+    "maintenance",
+    "crm",
+    "pricing",
+    "calculator"
+  ],
+  "author": "PoolTech",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafiscosella4-cell/pooltech-crm.git"
+  }
+}

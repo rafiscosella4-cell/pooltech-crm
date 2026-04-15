@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preço Justo - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">💰</div>
+      <h1 class="logo-text">Preço<br>Justo</h1>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Histórico</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Configurações</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">👤</div>
+        <div class="user-details">
+          <p class="user-name">Você</p>
+          <p class="user-role">Prestador</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <h2>Dashboard</h2>
+        <p class="header-subtitle">Calcule seu preço perfeito</p>
+      </div>
+      <div class="header-right">
+        <button class="btn-icon">🔔</button>
+        <button class="btn-icon">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+      <!-- Card Calculator (Grande) -->
+      <div class="card card-lg card-calculator">
+        <div class="card-header">
+          <h3>Calcular Preço</h3>
+          <span class="card-badge">Novo Cálculo</span>
+        </div>
+
+        <form id="precalcForm" class="calculator-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="custoTotal">
+                <span class="form-icon">🛠️</span>
+                Custo Total
+              </label>
+              <div class="input-wrapper">
+                <span class="currency">R$</span>
+                <input
+                  type="number"
+                  id="custoTotal"
+                  min="0"
+                  step="0.01"
+                  placeholder="0,00"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="horasTrabalhadas">
+                <span class="form-icon">⏱️</span>
+                Horas
+              </label>
+              <div class="input-wrapper">
+                <span class="currency">h</span>
+                <input
+                  type="number"
+                  id="horasTrabalhadas"
+                  min="0"
+                  step="0.5"
+                  placeholder="0"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="valorHora">
+                <span class="form-icon">💵</span>
+                Valor/Hora
+              </label>
+              <div class="input-wrapper">
+                <span class="currency">R$</span>
+                <input
+                  type="number"
+                  id="valorHora"
+                  min="0"
+                  step="0.01"
+                  placeholder="0,00"
+                  required
+                >
+              </div>
+            </div>
+          </div>
+
+          <button type="button" id="calcularBtn" class="btn-primary">
+            <span>Calcular Agora</span>
+            <span class="btn-arrow">→</span>
+          </button>
+
+          <!-- Botões Preset -->
+          <div class="presets-section">
+            <p class="presets-label">Ou use um preset:</p>
+            <div class="presets-grid">
+              <button type="button" class="btn-preset" data-preset="diarista" title="Custo: R$150 | Horas: 8 | Valor/h: R$35">
+                👩‍🏠 Diarista
+              </button>
+              <button type="button" class="btn-preset" data-preset="eletricista" title="Custo: R$200 | Horas: 2 | Valor/h: R$80">
+                ⚡ Eletricista
+              </button>
+              <button type="button" class="btn-preset" data-preset="encanador" title="Custo: R$100 | Horas: 3 | Valor/h: R$70">
+                🔧 Encanador
+              </button>
+              <button type="button" class="btn-preset" data-preset="designer" title="Custo: R$50 | Horas: 10 | Valor/h: R$60">
+                🎨 Designer
+              </button>
+              <button type="button" class="btn-preset" data-preset="mecanico" title="Custo: R$300 | Horas: 4 | Valor/h: R$90">
+                🔩 Mecânico
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Card Preço Final (Grande) -->
+      <div id="cardResultado" class="card card-lg card-resultado oculto">
+        <div class="card-header">
+          <h3>Seu Preço Ideal</h3>
+          <span id="indicador" class="card-badge"></span>
+        </div>
+
+        <div class="resultado-display">
+          <p class="resultado-label">Preço Recomendado</p>
+          <p class="resultado-valor" id="precoFinal">R$ 0,00</p>
+          <p class="resultado-subtitle">Com margem de lucro ideal</p>
+        </div>
+
+        <!-- Barra de Progresso Visual -->
+        <div class="progress-indicator">
+          <div class="progress-labels">
+            <span class="label-min">Mínimo</span>
+            <span class="label-ideal">Ideal</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-track">
+              <div id="progressFill" class="progress-fill-indicator"></div>
+            </div>
+          </div>
+        </div>
+
+        <canvas id="chartCircle" class="chart-circle"></canvas>
+      </div>
+
+      <!-- Card Preço Mínimo -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Preço Mínimo</h3>
+          <span class="icon-info">🛡️</span>
+        </div>
+        <div class="card-stat">
+          <p class="stat-value" id="precoMinimo">R$ 0,00</p>
+          <p class="stat-label">Sem perder dinheiro</p>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 40%;"></div>
+        </div>
+      </div>
+
+      <!-- Card Preço Ideal -->
+      <div class="card card-accent">
+        <div class="card-header">
+          <h3>Preço Ideal</h3>
+          <span class="icon-info">⭐</span>
+        </div>
+        <div class="card-stat">
+          <p class="stat-value" id="precoIdeal">R$ 0,00</p>
+          <p class="stat-label">Lucro saudável</p>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill progress-accent" style="width: 70%;"></div>
+        </div>
+      </div>
+
+      <!-- Card Dicas -->
+      <div class="card card-info">
+        <div class="card-header">
+          <h3>💡 Dica</h3>
+        </div>
+        <p class="info-text">Use o preço ideal para ter lucro saudável sem perder seus clientes!</p>
+      </div>
+
+      <!-- Card Histórico -->
+      <div class="card card-lg">
+        <div class="card-header">
+          <h3>Histórico de Cálculos</h3>
+          <button id="limparHistorico" class="btn-limpar">🗑️ Limpar</button>
+        </div>
+
+        <!-- Tabela de Histórico -->
+        <div class="historico-container">
+          <table class="historico-table" id="historicoTable">
+            <thead>
+              <tr>
+                <th>Data/Hora</th>
+                <th>Custo</th>
+                <th>Horas</th>
+                <th>Valor/h</th>
+                <th>Preço Final</th>
+              </tr>
+            </thead>
+            <tbody id="historicoBody">
+              <!-- Preenchido por JavaScript -->
+            </tbody>
+          </table>
+          <p id="historicoVazio" class="historico-vazio">Nenhum cálculo realizado ainda</p>
+        </div>
+      </div>
+
+      <!-- Card Gráfico de Evolução -->
+      <div class="card card-lg">
+        <div class="card-header">
+          <h3>Evolução de Preços</h3>
+          <span class="card-badge" id="historicoCount">0</span>
+        </div>
+        <canvas id="chartLine" class="chart-line"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
